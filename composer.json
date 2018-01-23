@@ -1,5 +1,6 @@
 {
     "name": "marcinappgo/tspinner",
+	"version": "0.0.1",
     "type": "library",
     "description": "PHP Library simply spin recursivly",
     "keywords": ["tspinner"],
