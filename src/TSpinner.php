@@ -12,14 +12,51 @@ namespace Marcinappgo\TSpinner;
 class TSpinner {
 
 	private $text;
-	
-	private $start = '{';
-	private $end = '}';
-	private $pipe = ']';
-
+	private $innerPointer = 0;
+	private $result = '';
+	private $spinFound = true;
 
 	public function __construct($text) {
 		$this->text = $text;
+	}
+	
+	public function spin() {
+		
+		// SPINNING UNTIL THERE IS NOTHING MORE TO SPIN
+		while($this->spinFound) {
+			
+			// LE GUARD
+			$this->spinFound = false;
+			
+			$results = array();
+			preg_match_all('/\{([^\{\}]+)\}/', $this->text, $results);
+			
+			foreach($results[0] AS $k => $s) {
+				$this->spinFound = true;
+				$candidates = explode('|', $results[1][$k]);
+				$winner = $this->choose($candidates);
+				$_c = 1;
+				$this->text = str_replace($s,$winner, $this->text, $_c);
+			}
+			
+		}
+		
+		return $this->text;
+		
+	}
+	
+	private function choose($candidates) {
+		
+		// SOME BASE HEX NUMBER - ALMOST RANDOM
+		$hash = hexdec("0x".strtoupper(substr(md5(microtime()),10,5)));
+
+		$search = count($candidates);
+		
+		// THE INDEX OF CANDIDATE FOUND
+		$found = $hash % $search;
+		
+		// THE WINNER
+		return $candidates[$found];
 	}
 	
 }
