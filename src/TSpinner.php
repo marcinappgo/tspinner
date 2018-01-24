@@ -45,14 +45,19 @@ class TSpinner {
 	}
 	
 	private function choose($candidates) {
-		
-		// SOME BASE HEX NUMBER - ALMOST RANDOM
-		$hash = hexdec("0x".strtoupper(substr(md5(microtime()),10,5)));
+		$found = 0;
+		while($this->lastFound == $found && count($candidates) > 1) {
+			// SOME BASE HEX NUMBER - ALMOST RANDOM
+			$hash = hexdec("0x".strtoupper(substr(md5(microtime()),10,5)));
 
-		$search = count($candidates);
+			$search = count($candidates);
 		
-		// THE INDEX OF CANDIDATE FOUND
-		$found = $hash % $search;
+			// THE INDEX OF CANDIDATE FOUND
+			$found = $hash % $search;
+		}
+		
+		
+		$this->lastFound = $found;
 		
 		// THE WINNER
 		return $candidates[$found];
