@@ -35,8 +35,7 @@ class TSpinner {
 				$this->spinFound = true;
 				$candidates = explode('|', $results[1][$k]);
 				$winner = $this->choose($candidates);
-				$_c = 1;
-				$this->text = str_replace($s,$winner, $this->text, $_c);
+				$this->text = preg_replace('/'.preg_quote($s).'/',$winner, $this->text, 1);
 			}
 			
 		}
